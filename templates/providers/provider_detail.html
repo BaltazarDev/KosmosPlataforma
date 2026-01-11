@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ provider.name }} - Logistics ERP{% endblock %}
+{% block page_title %}Ficha del Proveedor{% endblock %}
+
+{% block content %}
+<div style="margin-bottom: 20px;">
+    <a href="{% url 'provider_list' %}" class="btn"><i class="fas fa-arrow-left"></i> Volver</a>
+</div>
+
+<div class="card">
+    <div
+        style="display: flex; justify-content: space-between; align-items: start; border-bottom: 1px solid #eee; padding-bottom: 20px; margin-bottom: 20px;">
+        <div>
+            <h2 style="margin-bottom: 5px; color: var(--primary-color);">{{ provider.name }}</h2>
+            <p style="color: #7f8c8d;">{{ provider.tax_id }}</p>
+        </div>
+        <div>
+            <a href="{% url 'provider_update' provider.pk %}" class="btn btn-primary"><i class="fas fa-edit"></i>
+                Editar</a>
+        </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
+        <div>
+            <h3 style="margin-bottom: 15px;">Información Comercial</h3>
+            <table style="width: 100%;">
+                <tr>
+                    <td style="width: 150px; font-weight: bold;">Categoría:</td>
+                    <td>{{ provider.category }}</td>
+                </tr>
+                <tr>
+                    <td style="font-weight: bold;">Días Crédito:</td>
+                    <td>{{ provider.credit_days }}</td>
+                </tr>
+                <tr>
+                    <td style="font-weight: bold;">Dirección:</td>
+                    <td>{{ provider.address|linebreaksbr }}</td>
+                </tr>
+            </table>
+        </div>
+
+        <div>
+            <h3 style="margin-bottom: 15px;">Contacto</h3>
+            <table style="width: 100%;">
+                <tr>
+                    <td style="width: 150px; font-weight: bold;">Nombre:</td>
+                    <td>{{ provider.contact_name }}</td>
+                </tr>
+                <tr>
+                    <td style="font-weight: bold;">Teléfono:</td>
+                    <td>{{ provider.phone }}</td>
+                </tr>
+                <tr>
+                    <td style="font-weight: bold;">Email:</td>
+                    <td><a href="mailto:{{ provider.email }}">{{ provider.email }}</a></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Placeholder for future stats -->
+<div class="stats-grid">
+    <div class="stat-card">
+        <span class="stat-label">Total Comprado</span>
+        <span class="stat-value">$0.00</span>
+    </div>
+    <div class="stat-card">
+        <span class="stat-label">Órdenes Activas</span>
+        <span class="stat-value">0</span>
+    </div>
+</div>
+{% endblock %}

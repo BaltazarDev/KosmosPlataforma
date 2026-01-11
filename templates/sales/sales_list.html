@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Ventas - Logistics ERP{% endblock %}
+{% block page_title %}Órdenes de Venta{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Folio</th>
+                    <th>Cliente</th>
+                    <th>Coización</th>
+                    <th>Estatus Pago</th>
+                    <th>Total</th>
+                    <th>Pagado</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td>{{ order.order_number }}</td>
+                    <td>{{ order.client.name }}</td>
+                    <td>{{ order.quotation.quotation_number }}</td>
+                    <td>{{ order.get_status_display }}</td>
+                    <td>${{ order.total }}</td>
+                    <td>${{ order.paid_amount }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6">No hay ventas registradas.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}Logística - Logistics ERP{% endblock %}
+{% block page_title %}Dashboard Logístico{% endblock %}
+
+{% block content %}
+<div class="stats-grid">
+    <div class="stat-card">
+        <span class="stat-label">Operaciones Activas</span>
+        <span class="stat-value">{{ active_orders.count }}</span>
+    </div>
+    <div class="stat-card">
+        <!-- Placeholder for lost weight or other kpis -->
+        <span class="stat-label">Pérdida Promedio</span>
+        <span class="stat-value">0%</span>
+    </div>
+</div>
+
+<div class="card">
+    <h3>En Tránsito</h3>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Shipment ID</th>
+                    <th>Origen</th>
+                    <th>Destino</th>
+                    <th>ETA</th>
+                    <th>Estatus</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in active_orders %}
+                <tr>
+                    <td>{{ order.shipment_id }}</td>
+                    <td>{{ order.origin }}</td>
+                    <td>{{ order.destination }}</td>
+                    <td>{{ order.eta|date:"d/m/Y" }}</td>
+                    <td><span class="badge">{{ order.get_status_display }}</span></td>
+                    <td><a href="{% url 'logistics_order_detail' order.pk %}" class="btn btn-primary btn-sm">Ver</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6">No hay operaciones activas.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

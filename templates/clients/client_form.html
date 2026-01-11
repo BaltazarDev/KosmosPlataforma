@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }} - Logistics ERP{% endblock %}
+{% block page_title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="card" style="max-width: 800px; margin: 0 auto;">
+    <form method="post">
+        {% csrf_token %}
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+            <div class="form-group">
+                <label for="{{ form.name.id_for_label }}">Nombre / Razón Social</label>
+                {{ form.name }}
+                {% if form.name.errors %}<div class="text-danger">{{ form.name.errors }}</div>{% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.tax_id.id_for_label }}">RFC / Tax ID</label>
+                {{ form.tax_id }}
+                {% if form.tax_id.errors %}<div class="text-danger">{{ form.tax_id.errors }}</div>{% endif %}
+            </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 20px;">
+            <label for="{{ form.address.id_for_label }}">Dirección Fiscal</label>
+            {{ form.address }}
+        </div>
+
+        <h3 style="margin: 20px 0; border-bottom: 1px solid #eee; padding-bottom: 10px;">Contacto</h3>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+            <div class="form-group">
+                <label for="{{ form.contact_name.id_for_label }}">Nombre de Contacto</label>
+                {{ form.contact_name }}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.phone.id_for_label }}">Teléfono</label>
+                {{ form.phone }}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.email.id_for_label }}">Email</label>
+                {{ form.email }}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.payment_terms.id_for_label }}">Condiciones de Pago</label>
+                {{ form.payment_terms }}
+            </div>
+        </div>
+
+        <div class="form-actions" style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 30px;">
+            <a href="{% url 'client_list' %}" class="btn" style="background-color: #95a5a6; color: white;">Cancelar</a>
+            <button type="submit" class="btn btn-primary">Guardar Cliente</button>
+        </div>
+    </form>
+</div>
+
+<style>
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: 600;
+        color: var(--secondary-color);
+    }
+
+    .text-danger {
+        color: #e74c3c;
+        font-size: 0.85rem;
+        margin-top: 5px;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 1rem;
+    }
+</style>
+{% endblock %}

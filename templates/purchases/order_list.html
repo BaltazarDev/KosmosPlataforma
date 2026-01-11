@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}Órdenes de Compra - Logistics ERP{% endblock %}
+{% block page_title %}Órdenes de Compra{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="page-header">
+        <div></div>
+        <a href="{% url 'order_create' %}" class="btn btn-primary"><i class="fas fa-plus"></i> Nueva Orden</a>
+    </div>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Folio</th>
+                    <th>Proveedor</th>
+                    <th>Fecha Emisión</th>
+                    <th>Estatus</th>
+                    <th>Total</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in page_obj %}
+                <tr>
+                    <td>{{ order.order_number }}</td>
+                    <td>{{ order.provider.name }}</td>
+                    <td>{{ order.date_issued|date:"d/m/Y" }}</td>
+                    <td>
+                        <span class="badge badge-{{ order.status }}">{{ order.get_status_display }}</span>
+                    </td>
+                    <td>${{ order.total_amount }} {{ order.currency }}</td>
+                    <td>
+                        <a href="{% url 'order_detail' order.pk %}" class="btn btn-primary btn-sm">Ver</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6">No hay órdenes registradas.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+{% block page_title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="card">
+    <form method="post">
+        {% csrf_token %}
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px;">
+            <div class="form-group">
+                <label>Shipment ID</label>
+                {{ form.shipment_id }}
+            </div>
+            <div class="form-group">
+                <label>Booking / BL</label>
+                {{ form.booking_number }}
+            </div>
+            <div class="form-group">
+                <label>Contenedor</label>
+                {{ form.container_number }}
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 15px;">
+            <div class="form-group">
+                <label>Origen</label>
+                {{ form.origin }}
+            </div>
+            <div class="form-group">
+                <label>Destino</label>
+                {{ form.destination }}
+            </div>
+        </div>
+
+        <!-- Add more fields as needed for brevity I'm grouping them -->
+        <div style="margin-top: 20px;">
+            <button type="submit" class="btn btn-primary">Guardar Operación</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

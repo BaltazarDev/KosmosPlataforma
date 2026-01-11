@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block title %}Clientes - Logistics ERP{% endblock %}
+{% block page_title %}Directorio de Clientes{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="page-header" style="margin-bottom: 20px;">
+        <div class="search-box">
+            <form method="get" style="display: flex; gap: 10px;">
+                <input type="text" name="q" placeholder="Buscar cliente..." value="{{ query|default:'' }}"
+                    class="form-control" style="padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
+            </form>
+        </div>
+        <a href="{% url 'client_create' %}" class="btn btn-primary"><i class="fas fa-plus"></i> Nuevo Cliente</a>
+    </div>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre / Razón Social</th>
+                    <th>RFC / Tax ID</th>
+                    <th>Contacto</th>
+                    <th>Email</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for client in page_obj %}
+                <tr>
+                    <td>{{ client.name }}</td>
+                    <td>{{ client.tax_id }}</td>
+                    <td>{{ client.contact_name }}</td>
+                    <td>{{ client.email }}</td>
+                    <td>
+                        <a href="{% url 'client_detail' client.pk %}" class="btn btn-primary"
+                            style="padding: 4px 8px; font-size: 0.8rem;"><i class="fas fa-eye"></i></a>
+                        <a href="{% url 'client_update' client.pk %}" class="btn btn-primary"
+                            style="padding: 4px 8px; font-size: 0.8rem; background-color: #f39c12;"><i
+                                class="fas fa-edit"></i></a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" style="text-align: center;">No se encontraron clientes.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="pagination" style="margin-top: 20px; display: flex; justify-content: center; gap: 10px;">
+        {% if page_obj.has_previous %}
+        <a href="?page=1{% if query %}&q={{ query }}{% endif %}" class="btn">&laquo; Primero</a>
+        <a href="?page={{ page_obj.previous_page_number }}{% if query %}&q={{ query }}{% endif %}"
+            class="btn">Anterior</a>
+        {% endif %}
+
+        <span class="current" style="padding: 8px;">
+            Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+        </span>
+
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}{% if query %}&q={{ query }}{% endif %}" class="btn">Siguiente</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}{% if query %}&q={{ query }}{% endif %}" class="btn">Último
+            &raquo;</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

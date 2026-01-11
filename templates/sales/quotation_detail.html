@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}Cotización {{ quotation.quotation_number }}{% endblock %}
+{% block page_title %}Detalle de Cotización{% endblock %}
+
+{% block content %}
+<div style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px;">
+    <div>
+        <div class="card">
+            <h3>Partidas</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Cant.</th>
+                        <th>Precio</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr>
+                        <td>{{ item.product.name }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>${{ item.unit_price }}</td>
+                        <td>${{ item.total_line }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #ddd;">
+                <h4>Agregar Partida manually</h4>
+                <form method="post" style="display: flex; gap: 10px; align-items: end;">
+                    {% csrf_token %}
+                    {{ item_form.as_p }}
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <div class="card">
+            <h3>{{ quotation.client.name }}</h3>
+            <div class="info-row">Folio: {{ quotation.quotation_number }}</div>
+            <div class="info-row">Total: ${{ quotation.total_amount }}</div>
+            <!-- Generate Order Button Placeholder -->
+        </div>
+    </div>
+</div>
+{% endblock %}

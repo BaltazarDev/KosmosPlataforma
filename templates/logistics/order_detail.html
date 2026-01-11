@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block title %}Op. {{ order.shipment_id }}{% endblock %}
+{% block page_title %}Detalle Operación: {{ order.shipment_id }}{% endblock %}
+
+{% block content %}
+<div style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px;">
+    <div>
+        <!-- Timeline / Tracking -->
+        <div class="card">
+            <h3>Seguimiento</h3>
+            <div class="timeline" style="margin-top: 20px;">
+                {% for event in events %}
+                <div class="timeline-item"
+                    style="border-left: 2px solid var(--accent-color); padding-left: 15px; margin-bottom: 20px;">
+                    <div style="font-weight: bold;">{{ event.title }}</div>
+                    <div style="font-size: 0.9rem; color: #7f8c8d;">{{ event.date }} - {{ event.location }}</div>
+                    <div>{{ event.description }}</div>
+                </div>
+                {% empty %}
+                <p>No hay eventos registrados.</p>
+                {% endfor %}
+            </div>
+
+            <a href="#" class="btn btn-primary btn-sm"
+                onclick="document.getElementById('eventModal').style.display='block'">+ Agregar Evento</a>
+        </div>
+
+        <!-- Documents -->
+        <div class="card">
+            <h3>Documentos ({{ documents.count }})</h3>
+            <div
+                style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; margin-top: 15px;">
+                {% for doc in documents %}
+                <div style="border: 1px solid #eee; padding: 10px; border-radius: 4px; text-align: center;">
+                    <i class="fas fa-file-pdf" style="font-size: 2rem; color: #e74c3c; margin-bottom: 10px;"></i>
+                    <div style="font-size: 0.9rem; font-weight: bold;">{{ doc.get_doc_type_display }}</div>
+                    <a href="{{ doc.file.url }}" target="_blank" style="font-size: 0.8rem;">Ver</a>
+                </div>
+                {% empty %}
+                <p>Sin documentos.</p>
+                {% endfor %}
+            </div>
+
+            <div style="margin-top: 20px; border-top: 1px solid #eee; padding-top: 20px;">
+                <h4>Subir Documento</h4>
+                <form action="{% url 'upload_logistics_doc' order.pk %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="file" name="file" required>
+                    <select name="doc_type">
+                        <option value="invoice">Factura</option>
+                        <option value="packing_list">Packing List</option>
+                        <option value="other">Otro</option>
+                    </select>
+                    <button type="submit" class="btn btn-primary btn-sm">Subir</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <div class="card">
+            <h3>Detalles</h3>
+            <p><strong>Booking:</strong> {{ order.booking_number }}</p>
+            <p><strong>Contenedor:</strong> {{ order.container_number }}</p>
+            <hr>
+            <p><strong>Peso Enviado:</strong> {{ order.weight_sent }} KG</p>
+            <p><strong>Peso Recibido:</strong> {{ order.weight_received }} KG</p>
+            <p><strong>Pérdida:</strong> {{ order.loss_kg }} KG ({{ order.loss_percentage|floatform:2 }}%)</p>
+        </div>
+    </div>
+</div>
+
+<!-- Simple Modal implementation for Add Event would go here or use a separate page -->
+{% endblock %}

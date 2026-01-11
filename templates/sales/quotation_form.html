@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Nueva Cotización - Logistics ERP{% endblock %}
+{% block page_title %}Nueva Cotización{% endblock %}
+
+{% block content %}
+<div class="card" style="max-width: 800px; margin: 0 auto;">
+    <form method="post">
+        {% csrf_token %}
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div class="form-group">
+                <label>Cliente</label>
+                {{ form.client }}
+            </div>
+            <div class="form-group">
+                <label>Folio</label>
+                {{ form.quotation_number }}
+            </div>
+            <div class="form-group">
+                <label>Válida Hasta</label>
+                {{ form.valid_until }}
+            </div>
+            <div class="form-group">
+                <label>Estatus</label>
+                {{ form.status }}
+            </div>
+        </div>
+
+        <div class="form-group" style="margin-top: 15px;">
+            <label>Notas</label>
+            {{ form.notes }}
+        </div>
+
+        <div style="margin-top: 20px; text-align: right;">
+            <button type="submit" class="btn btn-primary">Crear</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

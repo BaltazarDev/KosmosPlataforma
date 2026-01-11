@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}Operaciones Logísticas - Logistics ERP{% endblock %}
+{% block page_title %}Registro de Operaciones{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="page-header">
+        <div></div>
+        <a href="{% url 'logistics_order_create' %}" class="btn btn-primary"><i class="fas fa-plus"></i> Nueva
+            Operación</a>
+    </div>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Shipment ID</th>
+                    <th>Cliente</th>
+                    <th>Transporte</th>
+                    <th>Origen > Destino</th>
+                    <th>ETD / ETA</th>
+                    <th>Estatus</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in page_obj %}
+                <tr>
+                    <td>{{ order.shipment_id }}</td>
+                    <td>{{ order.client.name }}</td>
+                    <td>{{ order.get_transport_type_display }}</td>
+                    <td>{{ order.origin }} > {{ order.destination }}</td>
+                    <td>
+                        <small>S: {{ order.etd|date:"d/m" }}</small><br>
+                        <small>L: {{ order.eta|date:"d/m" }}</small>
+                    </td>
+                    <td><span class="badge">{{ order.get_status_display }}</span></td>
+                    <td><a href="{% url 'logistics_order_detail' order.pk %}" class="btn btn-primary btn-sm">Ver</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7">No hay registros.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

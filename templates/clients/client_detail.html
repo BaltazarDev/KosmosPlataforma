@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ client.name }} - Logistics ERP{% endblock %}
+{% block page_title %}Ficha del Cliente{% endblock %}
+
+{% block content %}
+<div style="margin-bottom: 20px;">
+    <a href="{% url 'client_list' %}" class="btn"><i class="fas fa-arrow-left"></i> Volver</a>
+</div>
+
+<div class="card">
+    <div
+        style="display: flex; justify-content: space-between; align-items: start; border-bottom: 1px solid #eee; padding-bottom: 20px; margin-bottom: 20px;">
+        <div>
+            <h2 style="margin-bottom: 5px; color: var(--primary-color);">{{ client.name }}</h2>
+            <p style="color: #7f8c8d;">{{ client.tax_id }}</p>
+        </div>
+        <div>
+            <a href="{% url 'client_update' client.pk %}" class="btn btn-primary"><i class="fas fa-edit"></i> Editar</a>
+        </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
+        <div>
+            <h3 style="margin-bottom: 15px;">Información General</h3>
+            <table style="width: 100%;">
+                <tr>
+                    <td style="width: 150px; font-weight: bold;">Dirección:</td>
+                    <td>{{ client.address|linebreaksbr }}</td>
+                </tr>
+                <tr>
+                    <td style="font-weight: bold;">Condiciones Pago:</td>
+                    <td>{{ client.payment_terms }}</td>
+                </tr>
+                <tr>
+                    <td style="font-weight: bold;">Registrado el:</td>
+                    <td>{{ client.created_at|date:"d M Y" }}</td>
+                </tr>
+            </table>
+        </div>
+
+        <div>
+            <h3 style="margin-bottom: 15px;">Contacto</h3>
+            <table style="width: 100%;">
+                <tr>
+                    <td style="width: 150px; font-weight: bold;">Nombre:</td>
+                    <td>{{ client.contact_name }}</td>
+                </tr>
+                <tr>
+                    <td style="font-weight: bold;">Teléfono:</td>
+                    <td>{{ client.phone }}</td>
+                </tr>
+                <tr>
+                    <td style="font-weight: bold;">Email:</td>
+                    <td><a href="mailto:{{ client.email }}">{{ client.email }}</a></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Placeholder for future stats -->
+<div class="stats-grid">
+    <div class="stat-card">
+        <span class="stat-label">Total Compras</span>
+        <span class="stat-value">$0.00</span>
+    </div>
+    <div class="stat-card">
+        <span class="stat-label">Pedidos Activos</span>
+        <span class="stat-value">0</span>
+    </div>
+</div>
+{% endblock %}

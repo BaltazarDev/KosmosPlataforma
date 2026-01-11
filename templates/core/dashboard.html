@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - Logistics ERP{% endblock %}
+{% block page_title %}Dashboard General{% endblock %}
+
+{% block content %}
+<div class="stats-grid">
+    <div class="stat-card">
+        <span class="stat-label">Clientes</span>
+        <span class="stat-value">{{ total_clients }}</span>
+    </div>
+    <div class="stat-card">
+        <span class="stat-label">Proveedores</span>
+        <span class="stat-value">{{ total_providers }}</span>
+    </div>
+    <div class="stat-card">
+        <span class="stat-label">Pedidos Activos</span>
+        <span class="stat-value">{{ active_orders }}</span>
+    </div>
+    <div class="stat-card">
+        <span class="stat-label">Ventas del Mes</span>
+        <span class="stat-value">${{ monthly_sales }}</span>
+    </div>
+</div>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+    <div class="card">
+        <h3>Actividad Reciente</h3>
+        <p style="color: #7f8c8d; margin-top: 10px;">No hay actividad reciente registrada.</p>
+    </div>
+
+    <div class="card">
+        <h3>Resumen Logístico</h3>
+        <p style="color: #7f8c8d; margin-top: 10px;">Sin operaciones activas.</p>
+    </div>
+</div>
+{% endblock %}
