@@ -6,8 +6,8 @@ services:
       - .:/app
       - static_volume:/app/staticfiles
       - media_volume:/app/media
-    ports:
-      - "8000:8000"
+    # ports:
+    #   - "8000:8000" # Commented out for Coolify deployment to avoid port conflicts. Coolify handles routing.
     depends_on:
       - db
     environment:
@@ -28,8 +28,8 @@ services:
       - POSTGRES_DB=logistics_erp
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-    ports:
-      - "5432:5432"
+    # ports:
+    #   - "5432:5432" # Commented out to keep DB internal to the container network.
 
 volumes:
   postgres_data:
