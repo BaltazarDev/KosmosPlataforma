@@ -3,7 +3,8 @@ services:
     build: .
     command: sh -c "python manage.py migrate && gunicorn --bind 0.0.0.0:8000 logistics_erp.wsgi:application"
     volumes:
-      - .:/app
+      # - .:/app # Commented out for production: Use the code baked into the image
+
       - static_volume:/app/staticfiles
       - media_volume:/app/media
     # ports:
