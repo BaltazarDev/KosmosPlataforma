@@ -3,7 +3,7 @@ from django.db import models
 
 class User(AbstractUser):
     """
-    Custom user model for Logistics ERP.
+    Custom user model for Kosmos ERP.
     """
     is_logistics_admin = models.BooleanField(default=False)
     # Add other role-based fields here if necessary
