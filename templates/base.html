@@ -17,31 +17,139 @@
             <i class="fas fa-truck-loading"></i> &nbsp; Kosmos ERP
         </div>
         <div class="sidebar-menu">
-            <a href="{% url 'home' %}" class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">
-                <i class="fas fa-home"></i> Dashboard
+            <!-- Dashboard -->
+            <a href="{% url 'home' %}"
+                class="menu-link {% if request.resolver_match.url_name == 'home' %}active-parent{% endif %}"
+                style="border-left: 4px solid {% if request.resolver_match.url_name == 'home' %}var(--accent-color){% else %}transparent{% endif %};">
+                <div class="menu-link-content">
+                    <i class="fas fa-home"></i> <span>Dashboard</span>
+                </div>
             </a>
-            <a href="{% url 'client_list' %}" class="{% if 'clients' in request.path %}active{% endif %}">
-                <i class="fas fa-users"></i> Clientes
-            </a>
-            <a href="{% url 'provider_list' %}" class="{% if 'providers' in request.path %}active{% endif %}">
-                <i class="fas fa-handshake"></i> Proveedores
-            </a>
-            <a href="{% url 'order_list' %}" class="{% if 'purchases' in request.path %}active{% endif %}">
-                <i class="fas fa-shopping-cart"></i> Compras
-            </a>
-            <a href="{% url 'quotation_list' %}" class="{% if 'sales' in request.path %}active{% endif %}">
-                <i class="fas fa-chart-line"></i> Ventas
-            </a>
-            <a href="{% url 'logistics_dashboard' %}" class="{% if 'logistics' in request.path %}active{% endif %}">
-                <i class="fas fa-shipping-fast"></i> Logística
-            </a>
-            <a href="{% url 'document_list' %}" class="{% if 'documents' in request.path %}active{% endif %}">
-                <i class="fas fa-file-alt"></i> Documentos
-            </a>
+
+            <!-- Clientes -->
+            <div class="menu-item">
+                <a href="#" class="menu-link toggle-submenu">
+                    <div class="menu-link-content">
+                        <i class="fas fa-users"></i> <span>Clientes</span>
+                    </div>
+                    <i class="fas fa-chevron-down arrow"></i>
+                </a>
+                <div class="submenu">
+                    <a href="{% url 'client_dashboard' %}"
+                        class="{% if request.resolver_match.url_name == 'client_dashboard' %}active{% endif %}">
+                        <i class="fas fa-chart-pie"></i> Estadísticas
+                    </a>
+                    <a href="{% url 'client_create' %}"
+                        class="{% if request.resolver_match.url_name == 'client_create' %}active{% endif %}">
+                        <i class="fas fa-plus"></i> Nuevo cliente
+                    </a>
+                    <a href="{% url 'client_list' %}"
+                        class="{% if request.resolver_match.url_name == 'client_list' %}active{% endif %}">
+                        <i class="fas fa-list"></i> Clientes
+                    </a>
+                </div>
+            </div>
+
+            <!-- Proveedores -->
+            <div class="menu-item">
+                <a href="#" class="menu-link toggle-submenu">
+                    <div class="menu-link-content">
+                        <i class="fas fa-handshake"></i> <span>Proveedores</span>
+                    </div>
+                    <i class="fas fa-chevron-down arrow"></i>
+                </a>
+                <div class="submenu">
+                    <a href="{% url 'provider_dashboard' %}"
+                        class="{% if request.resolver_match.url_name == 'provider_dashboard' %}active{% endif %}">
+                        <i class="fas fa-chart-pie"></i> Estadísticas
+                    </a>
+                    <a href="{% url 'provider_create' %}"
+                        class="{% if request.resolver_match.url_name == 'provider_create' %}active{% endif %}">
+                        <i class="fas fa-plus"></i> Nuevo proveedor
+                    </a>
+                    <a href="{% url 'provider_list' %}"
+                        class="{% if request.resolver_match.url_name == 'provider_list' %}active{% endif %}">
+                        <i class="fas fa-list"></i> Proveedores
+                    </a>
+                </div>
+            </div>
+
+            <!-- Ventas -->
+            <div class="menu-item">
+                <a href="#" class="menu-link toggle-submenu">
+                    <div class="menu-link-content">
+                        <i class="fas fa-chart-line"></i> <span>Ventas</span>
+                    </div>
+                    <i class="fas fa-chevron-down arrow"></i>
+                </a>
+                <div class="submenu">
+                    <a href="{% url 'quotation_dashboard' %}"
+                        class="{% if request.resolver_match.url_name == 'quotation_dashboard' %}active{% endif %}">
+                        <i class="fas fa-chart-pie"></i> Estadísticas
+                    </a>
+                    <a href="{% url 'quotation_create' %}"
+                        class="{% if request.resolver_match.url_name == 'quotation_create' %}active{% endif %}">
+                        <i class="fas fa-plus"></i> Nueva cotización
+                    </a>
+                    <a href="{% url 'quotation_list' %}"
+                        class="{% if request.resolver_match.url_name == 'quotation_list' %}active{% endif %}">
+                        <i class="fas fa-list"></i> Cotizaciones
+                    </a>
+                </div>
+            </div>
+
+            <!-- Compras -->
+            <div class="menu-item">
+                <a href="#" class="menu-link toggle-submenu">
+                    <div class="menu-link-content">
+                        <i class="fas fa-shopping-cart"></i> <span>Compras</span>
+                    </div>
+                    <i class="fas fa-chevron-down arrow"></i>
+                </a>
+                <div class="submenu">
+                    <a href="{% url 'order_dashboard' %}"
+                        class="{% if request.resolver_match.url_name == 'order_dashboard' %}active{% endif %}">
+                        <i class="fas fa-chart-pie"></i> Estadísticas
+                    </a>
+                    <a href="{% url 'order_create' %}"
+                        class="{% if request.resolver_match.url_name == 'order_create' %}active{% endif %}">
+                        <i class="fas fa-plus"></i> Nueva orden
+                    </a>
+                    <a href="{% url 'order_list' %}"
+                        class="{% if request.resolver_match.url_name == 'order_list' %}active{% endif %}">
+                        <i class="fas fa-list"></i> Compras
+                    </a>
+                </div>
+            </div>
+
+            <!-- Logística -->
+            <div class="menu-item">
+                <a href="{% url 'logistics_dashboard' %}"
+                    class="menu-link {% if 'logistics' in request.path %}active-parent{% endif %}">
+                    <div class="menu-link-content">
+                        <i class="fas fa-shipping-fast"></i> <span>Logística</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Documentos -->
+            <div class="menu-item">
+                <a href="{% url 'document_list' %}"
+                    class="menu-link {% if 'documents' in request.path %}active-parent{% endif %}">
+                    <div class="menu-link-content">
+                        <i class="fas fa-file-alt"></i> <span>Documentos</span>
+                    </div>
+                </a>
+            </div>
+
             {% if user.is_staff %}
-            <a href="/admin/" target="_blank">
-                <i class="fas fa-cog"></i> Admin
-            </a>
+            <div class="menu-item">
+                <a href="/admin/" target="_blank" class="menu-link">
+                    <div class="menu-link-content">
+                        <i class="fas fa-cog"></i> <span>Admin</span>
+                    </div>
+                </a>
+            </div>
             {% endif %}
         </div>
     </div>
@@ -77,6 +185,7 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="{% static 'js/main.js' %}"></script>
     {% block extra_js %}{% endblock %}
 </body>

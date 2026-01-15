@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard Clientes - Kosmos ERP{% endblock %}
+{% block page_title %}Estadísticas de Clientes{% endblock %}
+
+{% block content %}
+<div class="dashboard-controls" style="margin-bottom: 20px; display: flex; justify-content: flex-end;">
+    <form method="get" class="date-filter-form">
+        <div class="btn-group">
+            <button type="submit" name="range" value="today"
+                class="btn {% if date_range == 'today' %}btn-primary{% else %}btn-outline{% endif %}">Hoy</button>
+            <button type="submit" name="range" value="week"
+                class="btn {% if date_range == 'week' %}btn-primary{% else %}btn-outline{% endif %}">Semana</button>
+            <button type="submit" name="range" value="month"
+                class="btn {% if date_range == 'month' or not date_range %}btn-primary{% else %}btn-outline{% endif %}">Mes</button>
+        </div>
+    </form>
+</div>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <span class="stat-label">Total Clientes</span>
+        <span class="stat-value">{{ total_clients }}</span>
+    </div>
+    <div class="stat-card">
+        <span class="stat-label">Nuevos (Periodo)</span>
+        <span class="stat-value">{{ new_clients_count }}</span>
+    </div>
+</div>
+
+<div class="card chart-card" style="margin-bottom: 30px;">
+    <h3>Crecimiento de Clientes</h3>
+    <div style="height: 300px;">
+        <canvas id="clientsTrendChart"></canvas>
+    </div>
+</div>
+
+<div style="text-align: right; margin-top: 20px;">
+    <a href="{% url 'client_list' %}" class="btn btn-primary">Ver Lista Completa</a>
+</div>
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const ctx = document.getElementById('clientsTrendChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: {{ chart_labels| safe }},
+        datasets: [{
+            label: 'Nuevos Clientes',
+            data: {{ chart_data| safe }},
+        borderColor: '#f1c40f',
+        backgroundColor: 'rgba(241, 196, 15, 0.2)',
+        borderWidth: 1
+            }]
+        },
+        options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'top',
+            },
+            title: {
+                display: true,
+                text: 'Nuevos Clientes por Día'
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    stepSize: 1
+                }
+            }
+        }
+    }
+    });
+});
+</script>
+{% endblock %}
+{% endblock %}

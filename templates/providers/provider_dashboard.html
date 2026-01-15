@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard Proveedores - Kosmos ERP{% endblock %}
+{% block page_title %}Estadísticas de Proveedores{% endblock %}
+
+{% block content %}
+<div class="dashboard-controls" style="margin-bottom: 20px; display: flex; justify-content: flex-end;">
+    <form method="get" class="date-filter-form">
+        <div class="btn-group">
+            <button type="submit" name="range" value="today"
+                class="btn {% if date_range == 'today' %}btn-primary{% else %}btn-outline{% endif %}">Hoy</button>
+            <button type="submit" name="range" value="week"
+                class="btn {% if date_range == 'week' %}btn-primary{% else %}btn-outline{% endif %}">Semana</button>
+            <button type="submit" name="range" value="month"
+                class="btn {% if date_range == 'month' or not date_range %}btn-primary{% else %}btn-outline{% endif %}">Mes</button>
+        </div>
+    </form>
+</div>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <span class="stat-label">Total Proveedores</span>
+        <span class="stat-value">{{ total_providers }}</span>
+    </div>
+    <div class="stat-card">
+        <span class="stat-label">Nuevos (Periodo)</span>
+        <span class="stat-value">{{ new_providers_count }}</span>
+    </div>
+</div>
+
+<div class="card chart-card" style="margin-bottom: 30px;">
+    <h3>Crecimiento de Proveedores</h3>
+    <div style="height: 300px;">
+        <canvas id="providersTrendChart"></canvas>
+    </div>
+</div>
+
+<div style="text-align: right; margin-top: 20px;">
+    <a href="{% url 'provider_list' %}" class="btn btn-primary">Ver Lista Completa</a>
+</div>
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const ctx = document.getElementById('providersTrendChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: {{ chart_labels| safe }},
+        datasets: [{
+            label: 'Nuevos Proveedores',
+            data: {{ chart_data| safe }},
+        borderColor: '#e67e22',
+        backgroundColor: 'rgba(230, 126, 34, 0.2)',
+        borderWidth: 1
+            }]
+        },
+        options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'top',
+            },
+            title: {
+                display: true,
+                text: 'Nuevos Proveedores por Día'
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    stepSize: 1
+                }
+            }
+        }
+    }
+    });
+});
+</script>
+{% endblock %}
+{% endblock %}

@@ -57,10 +57,67 @@ body {
     transition: background 0.2s;
 }
 
-.sidebar-menu a:hover,
-.sidebar-menu a.active {
+/* Submenu Styles */
+.menu-item {
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.menu-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    color: #ecf0f1;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.2s;
+    width: 100%;
+}
+
+.menu-link:hover, .menu-link.active-parent {
     background-color: var(--secondary-color);
+}
+
+.menu-link-content {
+    display: flex;
+    align-items: center;
+}
+
+.submenu {
+    max-height: 0;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.2);
+    transition: max-height 0.3s ease-out;
+}
+
+.submenu.open {
+    max-height: 500px; /* Arbitrary large height */
+    transition: max-height 0.5s ease-in;
+}
+
+.submenu a {
+    padding: 10px 20px 10px 50px; /* Indent */
+    font-size: 0.9rem;
+    color: #bdc3c7;
+    display: block;
+    text-decoration: none;
+    border-left: none; /* Override default */
+}
+
+.submenu a:hover,
+.submenu a.active {
+    color: white;
+    background-color: rgba(255,255,255,0.05);
     border-left: 4px solid var(--accent-color);
+}
+
+.arrow {
+    transition: transform 0.3s;
+    font-size: 0.8rem;
+}
+
+.menu-link.active-parent .arrow {
+    transform: rotate(180deg);
 }
 
 .sidebar-menu i {

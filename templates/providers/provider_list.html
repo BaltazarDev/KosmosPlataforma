@@ -4,10 +4,13 @@
 {% block page_title %}Directorio de Proveedores{% endblock %}
 
 {% block content %}
+
+
 <div class="card">
     <div class="page-header" style="margin-bottom: 20px;">
         <div class="search-box">
             <form method="get" style="display: flex; gap: 10px;">
+                <input type="hidden" name="range" value="{{ date_range }}">
                 <input type="text" name="q" placeholder="Buscar proveedor..." value="{{ query|default:'' }}"
                     class="form-control" style="padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
                 <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
@@ -55,4 +58,6 @@
 
     <!-- Pagination same as clients, skipping for brevity but would include here -->
 </div>
+
+{% block extra_js %}{% endblock %}
 {% endblock %}

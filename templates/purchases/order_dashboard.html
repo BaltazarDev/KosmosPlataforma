@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard Compras - Kosmos ERP{% endblock %}
+{% block page_title %}Estadísticas de Compras{% endblock %}
+
+{% block content %}
+<div class="dashboard-controls" style="margin-bottom: 20px; display: flex; justify-content: flex-end;">
+    <form method="get" class="date-filter-form">
+        <div class="btn-group">
+            <button type="submit" name="range" value="today"
+                class="btn {% if date_range == 'today' %}btn-primary{% else %}btn-outline{% endif %}">Hoy</button>
+            <button type="submit" name="range" value="week"
+                class="btn {% if date_range == 'week' %}btn-primary{% else %}btn-outline{% endif %}">Semana</button>
+            <button type="submit" name="range" value="month"
+                class="btn {% if date_range == 'month' or not date_range %}btn-primary{% else %}btn-outline{% endif %}">Mes</button>
+        </div>
+    </form>
+</div>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <span class="stat-label">Total Órdenes</span>
+        <span class="stat-value">{{ total_orders }}</span>
+    </div>
+    <div class="stat-card">
+        <span class="stat-label">Completadas</span>
+        <span class="stat-value">{{ completed_orders }}</span>
+    </div>
+    <div class="stat-card">
+        <span class="stat-label">Pendientes</span>
+        <span class="stat-value">{{ pending_orders }}</span>
+    </div>
+    <div class="stat-card">
+        <span class="stat-label">Total Gastado</span>
+        <span class="stat-value">${{ total_spent|floatformat:2 }}</span>
+    </div>
+</div>
+
+<div class="card chart-card" style="margin-bottom: 30px;">
+    <h3>Tendencia de Compras</h3>
+    <div style="height: 300px;">
+        <canvas id="purchasesTrendChart"></canvas>
+    </div>
+</div>
+
+<div style="text-align: right; margin-top: 20px;">
+    <a href="{% url 'order_list' %}" class="btn btn-primary">Ver Órdenes de Compra</a>
+</div>
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const ctx = document.getElementById('purchasesTrendChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: {{ chart_labels| safe }},
+        datasets: [{
+            label: 'Compras ($)',
+            data: {{ chart_data| safe }},
+        borderColor: '#e74c3c',
+        backgroundColor: 'rgba(231, 76, 60, 0.1)',
+        fill: true,
+        tension: 0.4
+            }]
+        },
+        options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'top',
+            },
+            title: {
+                display: true,
+                text: 'Gasto Diario'
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    callback: function (value, index, values) {
+                        return '$' + value;
+                    }
+                }
+            }
+        }
+    }
+    });
+});
+</script>
+{% endblock %}
+{% endblock %}
